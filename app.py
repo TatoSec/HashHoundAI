@@ -11,6 +11,6 @@ url = client.get_object("/urls/{}", url_id)
 
 url = client.get_object("/urls/{}".format(url_id))
 
-#print(url.last_analysis_stats)  #print function allows us to enumerate results
+print(url.last_analysis_stats)  #print function allows us to enumerate results
 
 
