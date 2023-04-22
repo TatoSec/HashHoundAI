@@ -1,10 +1,5 @@
-import vt
-from api_key import vt_key
+import vt 
+from api_key import virus_total_key
 
-client = vt.client(vt_key)
+client = vt.Client(virus_total_key)
 
-file = client.get_object(r'C:\Users\Ivan Test\Downloads\Audit Log Baseline Data [ThreatLocker Staff].xlsx')
-
-file.size
-
-file.sha256
