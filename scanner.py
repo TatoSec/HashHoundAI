@@ -21,17 +21,22 @@ headers = {
 
 response = requests.get(url, headers=headers)
 
+# Extracting only the Data I need
 data = response.text
 
 parsed_data = json.loads(data)
 
 type_description = parsed_data['data']['attributes']['type_description']
+classification = parsed_data['data']['attributes']['popular_threat_classification']['suggested_threat_label']
+times_submitted = parsed_data['data']['attributes']['times_submitted']
+file_size = parsed_data['data']['attributes']["size"]
 
 
-
-print(type_description)
-
-
+#print(response.text)
+print(f"Type: {type_description}")
+print(f"classification: {classification}")
+print(f"File Size: {file_size}mb")
+print(f"Submissions: {times_submitted}")
 
 
 
