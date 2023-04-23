@@ -1,8 +1,12 @@
 import vt 
+import os
+import openai 
 from api_key import virus_total_key
+from api_key import openai_key 
 
+
+# Activating API 
 client = vt.Client(virus_total_key)
-
 
 
 # URL SCANNER
@@ -11,6 +15,11 @@ url = client.get_object("/urls/{}", url_id)
 
 url = client.get_object("/urls/{}".format(url_id))
 
-print(url.last_analysis_stats)  #print function allows us to enumerate results
+#print(url.last_analysis_stats)  # Print function allows us to enumerate results
+
+# OpenAI 
+
+openai.api_key = openai_key
+openai.Model.list()
 
 
