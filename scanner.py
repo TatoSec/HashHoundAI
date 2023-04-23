@@ -11,7 +11,8 @@ from api_key import openai_key
 client = vt.Client(virus_total_key)
 
 # Get a Report by Hash
-url = "https://www.virustotal.com/api/v3/files/db3f663417baec4d8da89267a4a27df5"
+hash = "094a1eeb59ebad3e412670f28b9c62b7"
+url = f"https://www.virustotal.com/api/v3/files/{hash}"
 
 
 headers = {
@@ -52,11 +53,24 @@ print(f"Submissions: {times_submitted}")
 print(f"Aliases: {aliases}")
 
 
-# Enumerate Total Analysis
-#print(f"AV-Analysis: {categories, engine_names, result}")
+# # Enumerate Total Analysis
+# print(f"AV-Analysis: {categories, engine_names, result}")
 
 
 
+# OpenAI Integration
+openai.api_key = openai_key
+
+completion = openai.ChatCompletion.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "user", "content": f"I want to learn more about this file what can we extract from this has and these parameters{hash,type_description,aliases}"}
+  ]
+)
+
+
+
+print(completion.choices[0].message)
 
 
 
