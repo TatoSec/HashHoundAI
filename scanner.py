@@ -11,7 +11,7 @@ from api_key import openai_key
 client = vt.Client(virus_total_key)
 
 # Get a Report by Hash
-hash = "4ebbdda093241e71b735051012b5ebd9"
+hash = "b2482308b77868852d52539447f79fe0"
 url = f"https://www.virustotal.com/api/v3/files/{hash}"
 
 
