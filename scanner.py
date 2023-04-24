@@ -11,7 +11,7 @@ from api_key import openai_key
 client = vt.Client(virus_total_key)
 
 # Get a Report by Hash
-hash = "ec76ddb0b535c3217dc4bab68bc1ac4f"
+hash = "4ebbdda093241e71b735051012b5ebd9"
 url = f"https://www.virustotal.com/api/v3/files/{hash}"
 
 
@@ -64,13 +64,14 @@ openai.api_key = openai_key
 completion = openai.ChatCompletion.create(
   model="gpt-3.5-turbo",
   messages=[
-    {"role": "user", "content": f"I want to learn more about this file what can we extract from this has and these parameters{hash,type_description,aliases}"}
+    {"role": "user", "content": f"I want to learn more about this file what can we extract from this hash and these parameters{hash,type_description,aliases,last_analysis_results}"},
+    {"role": "user", "content": "Is the file malicious? and if so how do I remediate it if already in my system"}
   ]
 )
 
 
 
-print(completion.choices[0].message.content)
+print("HashHound-AI"),'\n', print(completion.choices[0].message.content)
 
 
 
