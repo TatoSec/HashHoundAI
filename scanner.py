@@ -64,14 +64,19 @@ openai.api_key = openai_key
 completion = openai.ChatCompletion.create(
   model="gpt-3.5-turbo",
   messages=[
+    {"role": "system", "content": "Your name is HashHoundAI you are a helpful cybersecurity assistant that knows everthing related to files and hashes"},
     {"role": "user", "content": f"I want to learn more about this file what can we extract from this hash and these parameters{hash,type_description,aliases,last_analysis_results}"},
-    {"role": "user", "content": "Is the file malicious? and if so how do I remediate it if already in my system"}
+    {"role": "user", "content": "if the file is malicious alert me and explain what this type of malware does, aslo tell me how remediate it if already in my system"}
   ]
 )
 
 
 
-print("HashHound-AI"),'\n', print(completion.choices[0].message.content)
+print("HashHound-AI:"),'\n', print(completion.choices[0].message.content)
+
+
+
+
 
 
 
