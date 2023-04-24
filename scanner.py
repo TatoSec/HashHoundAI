@@ -11,7 +11,7 @@ from api_key import openai_key
 client = vt.Client(virus_total_key)
 
 # Get a Report by Hash
-hash = "094a1eeb59ebad3e412670f28b9c62b7"
+hash = "ec76ddb0b535c3217dc4bab68bc1ac4f"
 url = f"https://www.virustotal.com/api/v3/files/{hash}"
 
 
@@ -70,7 +70,7 @@ completion = openai.ChatCompletion.create(
 
 
 
-print(completion.choices[0].message)
+print(completion.choices[0].message.content)
 
 
 
