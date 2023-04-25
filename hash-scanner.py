@@ -11,7 +11,8 @@ from api_key import openai_key
 client = vt.Client(virus_total_key)
 
 # Get a Report by Hash
-hash = "b2482308b77868852d52539447f79fe0"
+
+hash = input("Enter File Hash:")
 url = f"https://www.virustotal.com/api/v3/files/{hash}"
 
 
@@ -46,11 +47,7 @@ for engine in last_analysis_results.values():
 
 
 #print(response.text)
-print(f"Type: {type_description}")
-print(f"classification: {classification}")
-print(f"File Size: {file_size}mb")
-print(f"Submissions: {times_submitted}")
-print(f"Aliases: {aliases}")
+
 
 
 # # Enumerate Total Analysis
@@ -65,17 +62,23 @@ completion = openai.ChatCompletion.create(
   model="gpt-3.5-turbo",
   messages=[
     {"role": "system", "content": "Your name is HashHoundAI you are a helpful cybersecurity assistant that knows everthing related to files and hashes"},
-    {"role": "user", "content": f"I want to learn more about this file what can we extract from this hash and these parameters{hash,type_description,aliases,last_analysis_results}"},
-    {"role": "user", "content": "if the file is malicious alert me and explain what this type of malware does, aslo tell me how remediate it if already in my system"}
+    {"role": "user", "content": f"Go in depth about this hash and what an attacker cna achieve wiht this, can you also organize last_analysis_results such as egnine:status:name{hash,type_description,aliases,last_analysis_results}"},
+    {"role": "user", "content": "if the file is malicioustell me how to remediate it if its already in my system"}
   ]
 )
 
 
 
-print("HashHound-AI:"),'\n', print(completion.choices[0].message.content)
+def hash_scan ():
+  print(f"Type: {type_description}")
+  print(f"classification: {classification}")
+  print(f"File Size: {file_size}mb")
+  print(f"Submissions: {times_submitted}")
+  print(f"Aliases: {aliases}")
+  print("HashHound-AI:"),'\n', print(completion.choices[0].message.content)
 
 
-
+hash_scan()
 
 
 
