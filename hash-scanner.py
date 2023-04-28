@@ -29,31 +29,37 @@ data = response.text
 parsed_data = json.loads(data)
 
 #Subheaders in JSON File
-type_description = parsed_data['data']['attributes']['type_description']
-classification = parsed_data
-if 'popular_threat_classification' in parsed_data['data']['attributes']:
-    classification = parsed_data['data']['attributes']['popular_threat_classification']['suggested_threat_label']
+if 'error' in parsed_data:
+   print("HashHound-AI:"),'\n', print("As a Cyber Security Assistant I am constantly leanrning, but I couldn't find anything matching this across the world wide web..")
+   exit()
+else:
 
-elif 'popular_threat_classification' not in parsed_data['data']['attributes']:
-   classification = "No Description"
+  type_description = parsed_data
+  if 'type_description' in parsed_data['data']['attributes']:
+    type_description = parsed_data['data']['attributes']['type_description']
+    
+  elif 'type_description' not in parsed_data['data']['attributes']:
+    type_description = 'No Description'
 
-times_submitted = parsed_data['data']['attributes']['times_submitted']
-file_size = parsed_data['data']['attributes']["size"]
-last_analysis_results = parsed_data['data']['attributes']['last_analysis_results']
-aliases = parsed_data['data']['attributes']['names']
+  classification = parsed_data
+  if 'popular_threat_classification' in parsed_data['data']['attributes']:
+      classification = parsed_data['data']['attributes']['popular_threat_classification']['suggested_threat_label']
 
-categories = []
-engine_names = []
-result = []
-for engine in last_analysis_results.values():
-    categories.append(engine['category'])
-    engine_names.append(engine['engine_name'])
-    result.append(engine['result'])
+  elif 'popular_threat_classification' not in parsed_data['data']['attributes']:
+    classification = "no file classification"
 
+  times_submitted = parsed_data['data']['attributes']['times_submitted']
+  file_size = parsed_data['data']['attributes']["size"]
+  last_analysis_results = parsed_data['data']['attributes']['last_analysis_results']
+  aliases = parsed_data['data']['attributes']['names']
 
-
-#print(response.text)
-
+  categories = []
+  engine_names = []
+  result = []
+  for engine in last_analysis_results.values():
+      categories.append(engine['category'])
+      engine_names.append(engine['engine_name'])
+      result.append(engine['result'])
 
 
 # # Enumerate Total Analysis
@@ -69,7 +75,7 @@ if classification == "No Description":
     model="gpt-3.5-turbo",
     messages=[
       {"role": "system", "content": "Your name is HashHoundAI you are a helpful cybersecurity assistant that knows everthing related to files and hashes"},
-      {"role": "user", "content": f"determine weather the hash is malicious or not and Give an in depth explanation about the hash provided and what it does given this data:{hash,type_description}"},
+      {"role": "user", "content": f"determine weather the hash is malicious or not and Give an in depth explanation about the hash provided and what it does given this data:{categories,engine_names,result}"}
     ]
   )
 
@@ -79,7 +85,7 @@ else:
     model="gpt-3.5-turbo",
     messages=[
       {"role": "system", "content": "Your name is HashHoundAI you are a helpful cybersecurity assistant that knows everthing related to files and hashes"},
-      {"role": "user", "content": f"Go in depth about this hash, determin wether its malicious and what an attacker can achieve given this data:{hash,classification,type_description,aliases,last_analysis_results}. now give remediation"},
+      {"role": "user", "content": f"Go inn depth about what this does, Determine wether this is malicious or not based on the following data:{classification,type_description,aliases,categories,engine_names,result}. give steps for remediation if this file is within the environment"},
     ]
   )
 
@@ -88,7 +94,7 @@ else:
 def hash_scan ():
   print(f"Type: {type_description}")
   print(f"classification: {classification}")
-  print(f"File Size: {file_size}mb")
+  print(f"File Size: {file_size} mb")
   print(f"Submissions: {times_submitted}")
   print(f"Aliases: {aliases}")
   print("HashHound-AI:"),'\n', print(completion.choices[0].message.content)
